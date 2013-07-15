@@ -13,50 +13,55 @@ end
 
 def count_inversions(int_array)
 
-	total_length = int_array.length
+  total_length = int_array.length
+  mid_length = total_length / 2
 
-	if total_length == 1
-		return 0, int_array
-	else
-		left_part = int_array.slice(0,total_length/2)
-		right_part = int_array.slice(total_length/2..total_length)
-		
-		inv_left, left_sorted_part = count_inversions(left_part)
-		inv_right, right_sorted_part = count_inversions(right_part)
-		
-		inv_split, sorted_array = merge_and_count_split_inversions(left_sorted_part,right_sorted_part)
-		
-		return inv_left + inv_right + inv_split, sorted_array
-	end	
-	
+  if total_length == 1
+    return 0, int_array
+  else
+    left_part = int_array.slice(0,mid_length)
+    right_part = int_array.slice(mid_length..total_length)
+
+    inv_left, left_sorted_part = count_inversions(left_part)
+    inv_right, right_sorted_part = count_inversions(right_part)
+
+    inv_split, sorted_array = merge_and_count_split_inversions(left_sorted_part,right_sorted_part)
+
+    return inv_left + inv_right + inv_split, sorted_array
+  end 
+
 end
 
 def merge_and_count_split_inversions(left, right)
-	
-	i = 0
-	j = 0
-	inv_split = 0
-	sorted_array = []
 
-    while i <= left.length-1 and j <= right.length-1
-      if left[i] <= right[j]
-        sorted_array << left[i]
+  i = j = inv_split = 0
+  sorted_array = []
+  left_length = left.length
+  right_length = right.length
+
+    while i <= left_length-1 and j <= right_length-1
+      left_curr = left[i]
+      right_curr = right[j]
+      
+      if left_curr <= right_curr
+        sorted_array << left_curr
         i = i + 1
       else
-        sorted_array << right[j]
-        inv_split += left.length - i
+        sorted_array << right_curr
+        inv_split += left_length - i
         j = j + 1
       end
+      
     end
     
-    if not left[i]
-      sorted_array.concat(right.slice(j,right.length))
-    elsif not right[j]
-      sorted_array.concat(left.slice(i,left.length))
+    if left[i] == nil
+      sorted_array.concat(right.slice(j,right_length))
+    elsif right[j] == nil
+      sorted_array.concat(left.slice(i,left_length))
     end
    
-	return inv_split, sorted_array
-end	
+  return inv_split, sorted_array
+end 
 
 puts "Starting algorithm"
 
