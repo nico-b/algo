@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative 'divide-and-conquer-inversion'
+require_relative 'divide_and_conquer_inversion'
 
 class DivideAndConquerInversionTest < Test::Unit::TestCase
 
