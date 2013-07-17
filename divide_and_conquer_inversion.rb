@@ -2,12 +2,9 @@
 
 def read_array(file)
   int_array = []
-  File.open(file) do |f|
-    while (l = f.gets ) do
-      int_array << l.to_i
-    end
+  
+  IO.foreach(file) {|line| int_array << line.to_i}
 
-  end
   int_array
 end
 
@@ -19,8 +16,8 @@ def count_inversions(int_array)
   if total_length == 1
     return 0, int_array
   else
-    left_part = int_array.slice(0,mid_length)
-    right_part = int_array.slice(mid_length..total_length)
+    left_part = int_array[0,mid_length]
+    right_part = int_array[mid_length,total_length]
 
     inv_left, left_sorted_part = count_inversions(left_part)
     inv_right, right_sorted_part = count_inversions(right_part)
@@ -51,13 +48,13 @@ def merge_and_count_split_inversions(left, right)
         inv_split += left_length - i
         j = j + 1
       end
-      
+
     end
     
     if left[i] == nil
-      sorted_array.concat(right.slice(j,right_length))
+      sorted_array.concat(right[j,right_length])
     elsif right[j] == nil
-      sorted_array.concat(left.slice(i,left_length))
+      sorted_array.concat(left[i,left_length])
     end
    
   return inv_split, sorted_array
