@@ -11,6 +11,11 @@ class QuickSortTest < Test::Unit::TestCase
     assert_equal 0, find_median_index([5,1,2,3,7,8], 0)
   end
 
+  def test_find_median_index_with_offset
+    array = [5,1,2,3,7,8]
+    assert_equal 3, find_median_index(array[2..5], 2)
+  end
+
   def test_q1
     big_array = read_array("QuickSort.txt")
     start = Time.now
