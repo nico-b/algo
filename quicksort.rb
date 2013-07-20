@@ -10,18 +10,20 @@ end
 
 def find_median_index(array, l)
 
-  if array.length == 1
+  array_length = array.length
+
+  if array_length == 1
     return 0
   else
 
     first = array[0]
-    last_index = array.length - 1
+    last_index = array_length - 1
     last = array[last_index]
 
-    if array.length % 2 == 0
-      middle_index = array.length / 2 - 1
+    if array_length % 2 == 0
+      middle_index = array_length / 2 - 1
     else
-      middle_index = (array.length + 1) / 2 - 1
+      middle_index = (array_length + 1) / 2 - 1
     end
 
     middle = array[middle_index]
@@ -30,24 +32,15 @@ def find_median_index(array, l)
       if first < last
         return 0 + l
       else
-        if middle > last
-          return middle_index + l
-        else
-          return last_index + l
-        end
+        middle > last ? middle_index + l : last_index + l
       end
     else
       if middle < last
         return middle_index + l
       else
-        if first > last
-          return 0 + l
-        else
-          return last_index + l
-        end
+        first > last ? 0 + l : last_index + l
       end
     end
-
   end
 end
 
@@ -86,20 +79,4 @@ def quick_sort(array, l, r, nb_comp, exo_question)
   nb_comp, array = quick_sort(array, i+1, r, nb_comp, exo_question)
 
   return nb_comp, array
-end  
-
-puts "Starting algorithm"
-
-big_array = read_array("QuickSort.txt")
-
-start = Time.now
-
-nb_comp_1, sorted_array = quick_sort(big_array, 0, big_array.length - 1, 0, 1)
-#nb_comp_2, sorted_array = quick_sort(big_array, 0, big_array.length-1, 0, 2)
-#nb_comp_3, sorted_array = quick_sort(big_array, 0, big_array.length-1, 0, 3)
-
-puts "Nb comparisons Q1 : #{nb_comp_1}"
-#puts "Nb comparisons Q2 : #{nb_comp_2}"
-#puts "Nb comparisons Q3 : #{nb_comp_3}"
-
-puts "runtime: #{Time.now - start}"
+end
