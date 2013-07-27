@@ -9,7 +9,10 @@ def read_graph(file)
     top_vertex = split_line[0]
     vertices << top_vertex
     split_line[1..split_line.length - 1].each { |curr_vertex|
-      edges << [top_vertex, curr_vertex]
+      new_edge = [top_vertex, curr_vertex]
+      if not edges.include?(new_edge.reverse)
+        edges << [top_vertex, curr_vertex]
+      end
     }
   }
 
@@ -29,9 +32,15 @@ def process(file, nb_it)
 
   min_cut = 0
 
+  v, e = read_graph(file)
+  v_dump = Marshal.dump(v)
+  e_dump = Marshal.dump(e)
+
   for i in 1..nb_iterations
 
-    vertices, edges = read_graph(file)
+    vertices = Marshal.load(v_dump)
+    edges = Marshal.load(e_dump)
+
     res = random_contraction(edges, vertices)
 
     puts "iteration #{i} : res = #{res}"
@@ -51,8 +60,7 @@ def random_contraction(edges, vertices)
   remaining_vertices = vertices.length
 
   if remaining_vertices <= 2
-    #edges double way --> size must be divided by 2
-    return edges.length / 2
+    return edges.length
   end
 
   rand_index = rand(edges.length - 1)
