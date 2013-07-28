@@ -10,8 +10,9 @@ def read_graph(file)
     vertices << top_vertex
     split_line[1..split_line.length - 1].each { |curr_vertex|
       new_edge = [top_vertex, curr_vertex]
+      #doublons filter
       if not edges.include?(new_edge.reverse)
-        edges << [top_vertex, curr_vertex]
+        edges << new_edge
       end
     }
   }
@@ -51,34 +52,32 @@ end
 def random_contraction(edges, vertices)
 
   remaining_vertices = vertices.length
+  edges_length = edges.length
 
   if remaining_vertices <= 2
-    return edges.length
+    return edges_length
   end
 
-  rand_index = rand(edges.length - 1)
+  rand_index = rand(edges_length - 1)
   random_edge = edges[rand_index]
   start_vertex = random_edge[0]
   end_vertex = random_edge[1]
 
-  new_edges = []
-
-  edges.map { |edge|
-    if edge[0] == end_vertex or edge[0] == start_vertex
-      if edge[1] != end_vertex and edge[1] != start_vertex
-        new_edges << [start_vertex, edge[1]]
-      end
-    elsif edge[1] == end_vertex or edge[1] == start_vertex
-      if edge[0] != end_vertex and edge[0] != start_vertex
-        new_edges << [edge[0], start_vertex]
-      end
-    else
-      new_edges << edge
+  #pattern : each time, end_vertex is replaced by start_vertex
+  edges.each { |edge|
+    if edge[0] == end_vertex
+      edge[0] = start_vertex
+    end
+    if edge[1] == end_vertex
+      edge[1] = start_vertex
     end
   }
 
+  #delete inner loops
+  edges.delete_if {|e| e[0] == e[1]}
+
   vertices.delete(end_vertex)
 
-  return random_contraction(new_edges, vertices)
+  return random_contraction(edges, vertices)
 
 end

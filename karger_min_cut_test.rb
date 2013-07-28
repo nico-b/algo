@@ -12,7 +12,7 @@ class KargerMinCutTest < Test::Unit::TestCase
 
   def test_with_test_set
     start = Time.now
-    min_cut = process("kargerMinCut.txt", 100)
+    min_cut = process("kargerMinCut.txt", 1000)
     puts "runtime: #{Time.now - start}"
 
     assert_equal 17, min_cut
