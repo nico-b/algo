@@ -19,7 +19,6 @@ def read_graph(file)
   return vertices, edges
 end
 
-
 def process(file, nb_it)
 
   if nb_it == nil
@@ -70,19 +69,19 @@ def random_contraction(edges, vertices)
 
   new_edges = []
 
-  for i in 0..edges.length-1
-    if edges[i][0] == end_vertex or edges[i][0] == start_vertex
-      if edges[i][1] != end_vertex and edges[i][1] != start_vertex
-        new_edges << [start_vertex, edges[i][1]]
+  edges.map { |edge|
+    if edge[0] == end_vertex or edge[0] == start_vertex
+      if edge[1] != end_vertex and edge[1] != start_vertex
+        new_edges << [start_vertex, edge[1]]
       end
-    elsif edges[i][1] == end_vertex or edges[i][1] == start_vertex
-      if edges[i][0] != end_vertex and edges[i][0] != start_vertex
-        new_edges << [edges[i][0], start_vertex]
+    elsif edge[1] == end_vertex or edge[1] == start_vertex
+      if edge[0] != end_vertex and edge[0] != start_vertex
+        new_edges << [edge[0], start_vertex]
       end
     else
-      new_edges << edges[i]
+      new_edges << edge
     end
-  end
+  }
 
   vertices.delete(end_vertex)
 
