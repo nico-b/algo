@@ -21,13 +21,7 @@ end
 
 def process(file, nb_it)
 
-  if nb_it == nil
-    nb_iterations = 1000
-  else
-    nb_iterations = nb_it
-  end
-
-  puts "Nb iterations = #{nb_iterations}"
+  puts "Nb iterations = #{nb_it}"
 
   min_cut = 0
 
@@ -35,7 +29,7 @@ def process(file, nb_it)
   v_dump = Marshal.dump(v)
   e_dump = Marshal.dump(e)
 
-  for i in 1..nb_iterations
+  for i in 1..nb_it
 
     vertices = Marshal.load(v_dump)
     edges = Marshal.load(e_dump)
