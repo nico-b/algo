@@ -1,6 +1,5 @@
 require 'test/unit'
 require_relative 'scc'
-require_relative 'stack'
 
 class SccTest < Test::Unit::TestCase
 
@@ -11,15 +10,6 @@ class SccTest < Test::Unit::TestCase
     assert_equal [5,6], edges[8]
     assert_equal 9, edges.keys.length
     assert_equal [4, 9], reversed_edges[7]
-  end
-
-  def test_stack
-    stack = Stack.new
-    stack.push(1)
-    stack.push(2)
-    assert_equal 2, stack.size
-    assert_equal 2, stack.pop
-    assert_equal 1, stack.pop
   end
 
   def test_case_1
@@ -37,15 +27,10 @@ class SccTest < Test::Unit::TestCase
     assert_equal [3,3,1,1,0], max_scc
   end
 
-  def test_case_4
-    max_scc = compute("SCC_test_case_4.txt")
-    assert_equal [7,1,0,0,0], max_scc
-
-  end
-
-  def test_case_5
-    max_scc = compute("SCC_test_case_5.txt")
-    assert_equal [6,3,2,1,0], max_scc
+  def test_case_final
+    max_scc = compute("SCC.txt")
+    puts max_scc.to_s
+    assert_equal [], max_scc
   end
 
 end
