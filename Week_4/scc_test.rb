@@ -30,7 +30,7 @@ class SccTest < Test::Unit::TestCase
   def test_case_final
     max_scc = compute("SCC.txt")
     puts max_scc.to_s
-    assert_equal [], max_scc
+    assert_equal [434821, 968, 459, 313, 211], max_scc
   end
 
 end

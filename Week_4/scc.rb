@@ -97,6 +97,27 @@ def dfs(edges, next_node, is_reversed)
 
 end
 
+def find_top_five_leaders
+  puts 'start top 5 leaders'
+
+  counted_scc = {}
+  @leaders.values.each { |leader|
+
+    if not counted_scc.include?(leader)
+      counted_scc[leader] = 1
+    else
+      counted_scc[leader] = counted_scc[leader] + 1
+    end
+  }
+
+  sorted_scc = counted_scc.values.sort { |x, y| y <=> x }.first(5)
+
+  while sorted_scc.length < 5
+    sorted_scc << 0
+  end
+  puts 'end top 5 leaders'
+  sorted_scc
+end
 
 def compute(file)
 
@@ -110,7 +131,6 @@ def compute(file)
 
   vertices, edges, reversed_edges = read_graph(file)
 
-  #DFP-Loop on Reverse
   puts 'start dfs_loop on reversed graph'
   dfs_loop(vertices, reversed_edges, true)
   puts 'end dfs_loop on reversed graph'
@@ -118,29 +138,11 @@ def compute(file)
   puts 'start dfs_loop on regular graph'
   @explored_nodes.clear
   @s = nil
-  #DFS-Loop on Normal graph : need to process nodes in decreasing order of finishing time
+
   dfs_loop(@nodes_by_finishing_time, edges, false)
   puts 'end dfs_loop on regular graph'
 
-  puts 'start counting leaders'
-  counted_scc = {}
-  @leaders.values.each { |leader|
-
-    if not counted_scc.include?(leader)
-      counted_scc[leader] = 1
-    else
-      counted_scc[leader] = counted_scc[leader] + 1
-    end
-  }
-  puts 'end counting leaders'
-
-  puts 'start top 5 leaders'
-  sorted_scc = counted_scc.values.sort { |x, y| y <=> x }.first(5)
-
-  while sorted_scc.length < 5
-    sorted_scc << 0
-  end
-  puts 'end top 5 leaders'
+  sorted_scc = find_top_five_leaders()
 
   puts "runtime: #{Time.now - start}"
   return sorted_scc
