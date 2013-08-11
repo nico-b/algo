@@ -32,8 +32,23 @@ def read_file(file)
   return vertices, edges
 end
 
+def find_min_dist_in_q(dist, q)
+  min = 1000000
+
+  u = nil
+
+  q.each do |vertex|
+    if dist[vertex] < min
+      min = dist[vertex]
+      u = vertex
+    end
+  end
+  u
+end
+
 #Implem based on Wikipedia pseudo_code : http://en.wikipedia.org/wiki/Dijkstra's_algorithm
 def dijkstra(file, source_node)
+
   vertices, edges = read_file(file)
 
   dist = {}
@@ -49,16 +64,7 @@ def dijkstra(file, source_node)
 
   while not q.empty?
 
-    min = 1000000
-
-    u = nil
-
-    q.each do |vertex|
-      if dist[vertex] < min
-        min = dist[vertex]
-        u = vertex
-      end
-    end
+    u = find_min_dist_in_q(dist, q)
 
     q.delete?(u)
 
